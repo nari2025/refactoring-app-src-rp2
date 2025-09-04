@@ -11,6 +11,7 @@ import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import jp.co.sss.crud.constants.MessageConstants;
 import jp.co.sss.crud.util.ConstantSQL;
 
 /**
@@ -23,9 +24,6 @@ public class DBController {
 	/** インスタンス化を禁止 */
 	private DBController() {
 	}
-
-	/** 検索時に該当者がいない場合のメッセージ */
-	private static final String MSG_NO_MATCH_FOUND = "該当者はいませんでした";
 
 	/**
 	 * 全ての社員情報を検索
@@ -50,7 +48,7 @@ public class DBController {
 
 			//resultSetの結果Setがない場合はfalse
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println(MSG_NO_MATCH_FOUND);
+				System.out.println(MessageConstants.MSG_NO_MATCH_FOUND);
 				return;
 			}
 
@@ -123,7 +121,7 @@ public class DBController {
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println(MSG_NO_MATCH_FOUND);
+				System.out.println(MessageConstants.MSG_NO_MATCH_FOUND);
 				return;
 			}
 
@@ -200,7 +198,7 @@ public class DBController {
 			resultSet = preparedStatement.executeQuery();
 
 			if (!resultSet.isBeforeFirst()) {
-				System.out.println(MSG_NO_MATCH_FOUND);
+				System.out.println(MessageConstants.MSG_NO_MATCH_FOUND);
 				return;
 			}
 
