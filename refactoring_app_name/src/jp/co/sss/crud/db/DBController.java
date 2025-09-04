@@ -24,7 +24,7 @@ public class DBController {
 	private DBController() {
 	}
 
-	/** インスタンス化を禁止 */
+	/** 検索時に該当者がいない場合のメッセージ */
 	private static final String MSG_NO_MATCH_FOUND = "該当者はいませんでした";
 
 	/**
