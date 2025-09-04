@@ -91,11 +91,11 @@ public class MainSystem {
 				System.out.print("更新する社員の社員IDを入力してください：");
 
 				// 更新する値を入力する
-				String empId_1 = br.readLine();
-				Integer.parseInt(empId_1);
+				String updateEmpId = br.readLine();
+				Integer.parseInt(updateEmpId);
 
 				// 更新機能の呼出
-				DBController.update(empId_1);
+				DBController.update(updateEmpId);
 				System.out.println("社員情報を更新しました");
 
 				break;
