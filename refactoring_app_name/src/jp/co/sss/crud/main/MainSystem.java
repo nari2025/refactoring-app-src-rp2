@@ -68,7 +68,7 @@ public class MainSystem {
 				String deptIdA = br.readLine();
 
 				// 検索機能の呼出
-				DBController.findC(deptIdA);
+				DBController.findById(deptIdA);
 				break;
 
 			case 4:
