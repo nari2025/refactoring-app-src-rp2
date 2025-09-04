@@ -59,7 +59,7 @@ public class MainSystem {
 				System.out.print("社員名:");
 
 				// 検索機能の呼出
-				DBController.findB();
+				DBController.findByName();
 				break;
 
 			case 3:
