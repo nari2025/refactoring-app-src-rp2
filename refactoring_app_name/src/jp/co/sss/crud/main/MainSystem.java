@@ -18,6 +18,16 @@ import jp.co.sss.crud.db.DBController;
  *
  */
 public class MainSystem {
+
+	/** 入力された数字に対応した処理を変数として定義 */
+	public static final int FIND_ALL = 1;
+	public static final int FIND_NAME = 2;
+	public static final int FIND_ID = 3;
+	public static final int CREATE = 4;
+	public static final int UPDATE = 5;
+	public static final int DELETE = 6;
+	public static final int FINISH = 7;
+
 	/**
 	 * 社員管理システムを起動
 	 *
@@ -49,12 +59,12 @@ public class MainSystem {
 
 			// 機能の呼出
 			switch (menuNo) {
-			case 1:
+			case FIND_ALL:
 				// 全件表示機能の呼出
 				DBController.findAll();
 				break;
 
-			case 2:
+			case FIND_NAME:
 				// 社員名検索
 				System.out.print("社員名:");
 
@@ -62,7 +72,7 @@ public class MainSystem {
 				DBController.findByName();
 				break;
 
-			case 3:
+			case FIND_ID:
 				// 検索する部署IDを入力
 				System.out.print("部署ID(1:営業部、2:経理部、3:総務部)を入力してください:");
 				String searchDeptId = br.readLine();
@@ -71,7 +81,7 @@ public class MainSystem {
 				DBController.findById(searchDeptId);
 				break;
 
-			case 4:
+			case CREATE:
 				// 登録する値を入力
 				System.out.print("社員名:");
 				String emp_name = br.readLine();
@@ -86,7 +96,7 @@ public class MainSystem {
 				DBController.insert(emp_name, gender, birthday, registerDeptId);
 				break;
 
-			case 5:
+			case UPDATE:
 				// 更新する社員IDを入力
 				System.out.print("更新する社員の社員IDを入力してください：");
 
@@ -100,7 +110,7 @@ public class MainSystem {
 
 				break;
 
-			case 6:
+			case DELETE:
 				// 削除する社員IDを入力
 				System.out.print("削除する社員の社員IDを入力してください：");
 
@@ -109,7 +119,7 @@ public class MainSystem {
 				break;
 
 			}
-		} while (menuNo != 7);
+		} while (menuNo != FINISH);
 		System.out.println("システムを終了します。");
 	}
 }
