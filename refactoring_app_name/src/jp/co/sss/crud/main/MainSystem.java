@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 import jp.co.sss.crud.constants.ActionConstants;
+import jp.co.sss.crud.constants.MessageConstants;
 import jp.co.sss.crud.db.DBController;
 
 /**
@@ -90,7 +91,7 @@ public class MainSystem {
 
 			case ActionConstants.UPDATE:
 				// 更新する社員IDを入力
-				System.out.print("更新する社員の社員IDを入力してください：");
+				System.out.print(MessageConstants.MSG_UPDATE_QUESTION);
 
 				// 更新する値を入力する
 				String updateEmpId = br.readLine();
@@ -98,13 +99,13 @@ public class MainSystem {
 
 				// 更新機能の呼出
 				DBController.update(updateEmpId);
-				System.out.println("社員情報を更新しました");
+				System.out.println(MessageConstants.MSG_UPDATE_COMPLETE);
 
 				break;
 
 			case ActionConstants.DELETE:
 				// 削除する社員IDを入力
-				System.out.print("削除する社員の社員IDを入力してください：");
+				System.out.print(MessageConstants.MSG_DELETE_QUESTION);
 
 				// 削除機能の呼出
 				DBController.delete();
@@ -112,6 +113,6 @@ public class MainSystem {
 
 			}
 		} while (menuNo != ActionConstants.FINISH);
-		System.out.println("システムを終了します。");
+		System.out.println(MessageConstants.MSG_FINISH);
 	}
 }
