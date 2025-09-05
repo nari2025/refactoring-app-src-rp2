@@ -3,7 +3,7 @@ package jp.co.sss.crud.util;
 public class ConstantMsg {
 
 	/** 全件表示の際のテーブルのカラム名 */
-	public static final String MSG_LIST = "社員ID\t社員名\t性別\t生年月日\t部署名";
+	public static final String MSG_LIST_CALAM = "社員ID\t社員名\t性別\t生年月日\t部署名";
 	/** 検索時に該当者がいない場合のメッセージ */
 	public static final String MSG_NO_MATCH_FOUND = "該当者はいませんでした";
 	/** 更新する社員を質問する時のメッセージ */
