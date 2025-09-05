@@ -54,7 +54,7 @@ public class DBController {
 			}
 
 			// レコードを出力
-			System.out.println(ConstantMsg.MSG_LIST);
+			System.out.println(ConstantMsg.MSG_LIST_CALAM);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id") + "\t");
 				System.out.print(resultSet.getString("emp_name") + "\t");
@@ -126,7 +126,7 @@ public class DBController {
 				return;
 			}
 
-			System.out.println(ConstantMsg.MSG_LIST);
+			System.out.println(ConstantMsg.MSG_LIST_CALAM);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
@@ -203,7 +203,7 @@ public class DBController {
 				return;
 			}
 
-			System.out.println(ConstantMsg.MSG_LIST);
+			System.out.println(ConstantMsg.MSG_LIST_CALAM);
 			while (resultSet.next()) {
 				System.out.print(resultSet.getString("emp_id"));
 				System.out.print("\t");
@@ -231,10 +231,10 @@ public class DBController {
 				System.out.print("\t");
 
 				String deptIdString = resultSet.getString("dept_id");
-				int deptId2 = Integer.parseInt(deptIdString);
-				if (deptId2 == ConstantValue.SALES_DEPT) {
+				int searchDeptId = Integer.parseInt(deptIdString);
+				if (searchDeptId == ConstantValue.SALES_DEPT) {
 					System.out.println("営業部");
-				} else if (deptId2 == ConstantValue.ACCOUNTING_DEPT) {
+				} else if (searchDeptId == ConstantValue.ACCOUNTING_DEPT) {
 					System.out.println("経理部");
 				} else if (gender == ConstantValue.GENERAL_AFFAIRS_DEPT) {
 					System.out.println("総務部");
