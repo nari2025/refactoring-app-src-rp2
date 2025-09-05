@@ -6,9 +6,9 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import jp.co.sss.crud.constants.ActionConstants;
-import jp.co.sss.crud.constants.MessageConstants;
 import jp.co.sss.crud.db.DBController;
+import jp.co.sss.crud.util.ConstantMsg;
+import jp.co.sss.crud.util.ConstantValue;
 
 /**
  * 社員情報管理システム開始クラス 社員情報管理システムはこのクラスから始まる。<br/>
@@ -52,12 +52,12 @@ public class MainSystem {
 
 			// 機能の呼出
 			switch (menuNo) {
-			case ActionConstants.FIND_ALL:
+			case ConstantValue.FIND_ALL:
 				// 全件表示機能の呼出
 				DBController.findAll();
 				break;
 
-			case ActionConstants.FIND_NAME:
+			case ConstantValue.FIND_NAME:
 				// 社員名検索
 				System.out.print("社員名:");
 
@@ -65,7 +65,7 @@ public class MainSystem {
 				DBController.findByName();
 				break;
 
-			case ActionConstants.FIND_ID:
+			case ConstantValue.FIND_ID:
 				// 検索する部署IDを入力
 				System.out.print("部署ID(1:営業部、2:経理部、3:総務部)を入力してください:");
 				String searchDeptId = br.readLine();
@@ -74,7 +74,7 @@ public class MainSystem {
 				DBController.findById(searchDeptId);
 				break;
 
-			case ActionConstants.CREATE:
+			case ConstantValue.CREATE:
 				// 登録する値を入力
 				System.out.print("社員名:");
 				String emp_name = br.readLine();
@@ -89,9 +89,9 @@ public class MainSystem {
 				DBController.insert(emp_name, gender, birthday, registerDeptId);
 				break;
 
-			case ActionConstants.UPDATE:
+			case ConstantValue.UPDATE:
 				// 更新する社員IDを入力
-				System.out.print(MessageConstants.MSG_UPDATE_QUESTION);
+				System.out.print(ConstantMsg.MSG_UPDATE_QUESTION);
 
 				// 更新する値を入力する
 				String updateEmpId = br.readLine();
@@ -99,20 +99,20 @@ public class MainSystem {
 
 				// 更新機能の呼出
 				DBController.update(updateEmpId);
-				System.out.println(MessageConstants.MSG_UPDATE_COMPLETE);
+				System.out.println(ConstantMsg.MSG_UPDATE_COMPLETE);
 
 				break;
 
-			case ActionConstants.DELETE:
+			case ConstantValue.DELETE:
 				// 削除する社員IDを入力
-				System.out.print(MessageConstants.MSG_DELETE_QUESTION);
+				System.out.print(ConstantMsg.MSG_DELETE_QUESTION);
 
 				// 削除機能の呼出
 				DBController.delete();
 				break;
 
 			}
-		} while (menuNo != ActionConstants.FINISH);
-		System.out.println(MessageConstants.MSG_FINISH);
+		} while (menuNo != ConstantValue.FINISH);
+		System.out.println(ConstantMsg.MSG_FINISH);
 	}
 }
