@@ -1,5 +1,5 @@
 package jp.co.sss.crud.db;
 
-public class IEmployeeDAO {
+public interface IEmployeeDAO {
 
 }
