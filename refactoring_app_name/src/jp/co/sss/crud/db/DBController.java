@@ -10,7 +10,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
+import jp.co.sss.crud.dto.Department;
+import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
 import jp.co.sss.crud.util.ConstantValue;
@@ -95,7 +99,8 @@ public class DBController {
 	 * @throws SQLException           DB処理でエラーが発生した場合に送出
 	 * @throws IOException            入力処理でエラーが発生した場合に送出
 	 */
-	public static void findByName() throws ClassNotFoundException, SQLException, IOException {
+	public static List<Employee> findByName() throws ClassNotFoundException, SQLException, IOException {
+		List<Employee> employees = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		// 検索ワード
@@ -121,42 +126,34 @@ public class DBController {
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
+			//該当者がいるかチェック
 			if (!resultSet.isBeforeFirst()) {
 				System.out.println(ConstantMsg.MSG_NO_MATCH_FOUND);
-				return;
+				return employees;
 			}
 
 			System.out.println(ConstantMsg.MSG_LIST_CALAM);
+			// DTOへの格納とリストへの追加
 			while (resultSet.next()) {
-				System.out.print(resultSet.getString("emp_id"));
-				System.out.print("\t");
+				//DTO への格納
+				Employee employee = new Employee();
 
-				System.out.print(resultSet.getString("emp_name"));
-				System.out.print("\t");
+				Department department = new Department();
+				department.setDeptName(resultSet.getString("dept_name"));
 
-				String genderString = resultSet.getString("gender");
-				int gender = Integer.parseInt(genderString);
-				if (gender == ConstantValue.NO_ANSWER) {
-					System.out.print("回答なし");
-				} else if (gender == ConstantValue.MALE) {
-					System.out.print("男性");
+				employee.setEmpId(resultSet.getInt("emp_id"));
+				employee.setGender(resultSet.getInt("gender"));
+				employee.setEmpName(resultSet.getString("emp_name"));
+				employee.setBirthday(resultSet.getString("birthday"));
+				employee.setDepartment(department);
+				//リストへの追加
+				employees.add(employee);
 
-				} else if (gender == ConstantValue.FEMALE) {
-					System.out.print("女性");
+				System.out.println(employee);
+				System.out.println("");
 
-				} else if (gender == ConstantValue.OTHER) {
-					System.out.print("その他");
-
-				}
-
-				System.out.print("\t");
-				System.out.print(resultSet.getString("birthday"));
-				System.out.print("\t");
-
-				System.out.println(resultSet.getString("dept_name"));
 			}
-
-			System.out.println("");
+			return employees;
 
 		} finally {
 			// クローズ処理
