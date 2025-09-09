@@ -12,31 +12,27 @@ public class EmployeeAllFindService implements IEmployeeService {
 	private final EmployeeDAO employeeDAO = new EmployeeDAO();
 
 	/**
-	 * 全ての社員情報を検索
-	 *
-	 * @throws ClassNotFoundException ドライバクラスが不在の場合に送出
-	 * @throws SQLException           DB処理でエラーが発生した場合に送出
+	 * 全ての社員情報を検索するためのビジネスロジック
 	 */
-	public List<Employee> findAll() throws ClassNotFoundException, SQLException {
-
-		// レコードを出力
-		System.out.println(ConstantMsg.MSG_LIST_CALAM);
-
-		// DAOのfindAll()メソッドを呼び出してリストを取得
-		List<Employee> allEmployees = employeeDAO.findAll();
-
-		for (Employee emp : allEmployees) {
-			System.out.println(emp);
-		}
-		System.out.println("");
-
-		return allEmployees;
-	}
-
 	@Override
 	public void execute() {
-		// TODO 自動生成されたメソッド・スタブ
+		try {
+			// レコードを出力
+			System.out.println(ConstantMsg.MSG_LIST_CALAM);
 
+			// DAOのfindAll()メソッドを呼び出してリストを取得
+			List<Employee> allEmployees = employeeDAO.findAll();
+
+			// 取得したリストをループ処理で表示
+			for (Employee emp : allEmployees) {
+				System.out.println(emp);
+			}
+			System.out.println("");
+
+		} catch (ClassNotFoundException | SQLException e) {
+			// エラーハンドリング（例：エラーメッセージの表示）
+			e.printStackTrace();
+		}
 	}
 
 }
