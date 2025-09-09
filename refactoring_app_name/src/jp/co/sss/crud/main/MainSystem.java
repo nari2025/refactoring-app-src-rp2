@@ -6,7 +6,12 @@ import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.text.ParseException;
 
-import jp.co.sss.crud.db.DBController;
+import jp.co.sss.crud.service.EmployeeAllFindService;
+import jp.co.sss.crud.service.EmployeeDeleteService;
+import jp.co.sss.crud.service.EmployeeFindByDeptIdService;
+import jp.co.sss.crud.service.EmployeeFindByEmpNameService;
+import jp.co.sss.crud.service.EmployeeRegisterService;
+import jp.co.sss.crud.service.EmployeeUpdateService;
 import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
@@ -30,6 +35,14 @@ public class MainSystem {
 	 * @throws ParseException 
 	 */
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException, ParseException {
+
+		EmployeeAllFindService employeeAllFindService = new EmployeeAllFindService();
+		EmployeeFindByEmpNameService employeeFindByEmpNameService = new EmployeeFindByEmpNameService();
+		EmployeeFindByDeptIdService employeeFindByDeptIdService = new EmployeeFindByDeptIdService();
+		EmployeeRegisterService employeeRegisterService = new EmployeeRegisterService();
+		EmployeeUpdateService employeeUpdateService = new EmployeeUpdateService();
+		EmployeeDeleteService employeeDeleteService = new EmployeeDeleteService();
+
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		int menuNo = 0;
@@ -54,7 +67,7 @@ public class MainSystem {
 			switch (menuNo) {
 			case ConstantValue.FIND_ALL:
 				// 全件表示機能の呼出
-				DBController.findAll();
+				employeeAllFindService.findAll();
 				break;
 
 			case ConstantValue.FIND_NAME:
@@ -62,7 +75,7 @@ public class MainSystem {
 				System.out.print("社員名:");
 
 				// 検索機能の呼出
-				DBController.findByName();
+				employeeFindByEmpNameService.findByEmployeeName();
 				break;
 
 			case ConstantValue.FIND_ID:
@@ -71,7 +84,7 @@ public class MainSystem {
 				String searchDeptId = br.readLine();
 
 				// 検索機能の呼出
-				DBController.findById(searchDeptId);
+				employeeFindByDeptIdService.findByDeptId(searchDeptId);
 				break;
 
 			case ConstantValue.CREATE:
@@ -86,7 +99,7 @@ public class MainSystem {
 				String registerDeptId = br.readLine();
 
 				// 登録機能の呼出
-				DBController.insert(emp_name, gender, birthday, registerDeptId);
+				employeeRegisterService.insert(emp_name, gender, birthday, registerDeptId);
 				break;
 
 			case ConstantValue.UPDATE:
@@ -98,7 +111,7 @@ public class MainSystem {
 				Integer.parseInt(updateEmpId);
 
 				// 更新機能の呼出
-				DBController.update(updateEmpId);
+				employeeUpdateService.update(updateEmpId);
 				System.out.println(ConstantMsg.MSG_UPDATE_COMPLETE);
 
 				break;
@@ -108,7 +121,7 @@ public class MainSystem {
 				System.out.print(ConstantMsg.MSG_DELETE_QUESTION);
 
 				// 削除機能の呼出
-				DBController.delete();
+				employeeDeleteService.delete();
 				break;
 
 			}
