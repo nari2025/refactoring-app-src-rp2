@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
-import jp.co.sss.crud.io.ConsoleWriter;
-import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantValue;
 
 /**
@@ -19,11 +17,8 @@ public interface IEmployeeService {
 	 * @return IEmployeeServiceを実装したサービスクラス
 	 * @throws IOException 
 	 */
-	public static IEmployeeService getInstanceByMenuNo() throws IOException {
+	public static IEmployeeService getInstanceByMenuNo(int menuNo) {
 		IEmployeeService newInstance = null;
-
-		ConsoleWriter consoleWriter = new ConsoleWriter();
-		int menuNo = consoleWriter.menuSelect();
 		/*====menuNoごとにインスタンスを生成する。必要に応じてcaseを追加する====*/
 		switch (menuNo) {
 		//menu1 全件検索
@@ -45,10 +40,6 @@ public interface IEmployeeService {
 		case ConstantValue.DELETE:
 			newInstance = new EmployeeDeleteService();
 			break;
-		case ConstantValue.FINISH:
-			System.out.println(ConstantMsg.MSG_FINISH);
-			break;
-
 		}
 		return newInstance;
 	}
@@ -57,6 +48,7 @@ public interface IEmployeeService {
 	 * ビジネスロジックの実行
 	 * DAOのメソッドを呼び出し、ユースケース（登録や更新）を実装する
 	 * また実行結果のコンソールへの表示を行う
+	 * @return 
 	 * 
 	 * @throws SystemErrorException, IllegalInputException
 	 */
