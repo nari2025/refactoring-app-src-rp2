@@ -7,9 +7,11 @@ public class Employee {
 	private static final String STRING_MALE = "男性";
 	private static final String STRING_FEMALE = "女性";
 	private static final String STRING_OTHER = "その他";
-	private static final String STRING_ANSWER = "回答なし";
+	private static final String STRING_NO_ANSWER = "回答なし";
 	private int empId;
 	private int gender;
+
+	private String gender_ja;
 	private String birthday;
 	private String empName;
 
@@ -17,7 +19,21 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		String gender_ja = "";
+		StringBuilder sb = new StringBuilder();
+		sb.append(empId);
+		sb.append("\t");
+		sb.append(empName);
+		sb.append("\t");
+		sb.append(getGenderText(gender));
+		sb.append(birthday);
+		sb.append("\t");
+		sb.append(department.getDeptName());
+		sb.append("\t");
+
+		return sb.toString();
+	}
+
+	public String getGenderText(int gender) {
 		if (this.gender == ConstantValue.MALE) {
 			gender_ja = STRING_MALE;
 		} else if (this.gender == ConstantValue.FEMALE) {
@@ -25,11 +41,9 @@ public class Employee {
 		} else if (this.gender == ConstantValue.OTHER) {
 			gender_ja = STRING_OTHER;
 		} else if (this.gender == ConstantValue.NO_ANSWER) {
-			gender_ja = STRING_ANSWER;
+			gender_ja = STRING_NO_ANSWER;
 		}
-
-		return empId + "\t" + empName + "\t" + gender_ja + "\t" + birthday
-				+ "\t" + department.getDeptName();
+		return gender_ja;
 	}
 
 	public int getGender() {
