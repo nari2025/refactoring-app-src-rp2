@@ -18,5 +18,6 @@ public class ConstantMsg {
 	public static final String MSG_DELETE_COMPLETE = "社員情報を削除しました";
 	/** 終了時のメッセージ */
 	public static final String MSG_FINISH = "システムを終了します。";
+	public static final String MSG_SYSTEM_ERROR = "エラーが発生しました。";
 
 }
