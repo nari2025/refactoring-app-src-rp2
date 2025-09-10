@@ -1,6 +1,5 @@
 package jp.co.sss.crud.db;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,16 +12,15 @@ import java.util.List;
 
 import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
-import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
+import jp.co.sss.crud.util.ConstantMsg;
 import jp.co.sss.crud.util.ConstantSQL;
 import jp.co.sss.crud.util.ConstantValue;
-import jp.co.sss.crud.util.EmployeeUtil;
 
-public class EmployeeDAO {
+public class EmployeeDAO implements IEmployeeDAO {
 
-	public List<Employee> findAll() throws ClassNotFoundException, SQLException {
+	public List<Employee> findAll() throws SystemErrorException {
 		List<Employee> allEmployees = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -52,20 +50,26 @@ public class EmployeeDAO {
 				//リストへの追加
 				allEmployees.add(allEmployee);
 			}
-
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
 			// クローズ処理
-			DBManager.close(resultSet);
-			// Statementをクローズ
-			DBManager.close(preparedStatement);
-			// DBとの接続を切断
-			DBManager.close(connection);
+			try {
+				DBManager.close(resultSet);
+				// Statementをクローズ
+				DBManager.close(preparedStatement);
+				// DBとの接続を切断
+				DBManager.close(connection);
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 		return allEmployees;
 	}
 
 	public List<Employee> findByEmployeeName(String searchWord)
-			throws ClassNotFoundException, SQLException, IOException, SystemErrorException, IllegalInputException {
+			throws SystemErrorException {
 		List<Employee> employees = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -103,19 +107,26 @@ public class EmployeeDAO {
 				employees.add(employee);
 			}
 			return employees;
-
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
-			// クローズ処理
-			DBManager.close(resultSet);
-			// Statementをクローズ
-			DBManager.close(preparedStatement);
-			// DBとの接続を切断
-			DBManager.close(connection);
+			try {
+				// クローズ処理
+				DBManager.close(resultSet);
+				// Statementをクローズ
+				DBManager.close(preparedStatement);
+				// DBとの接続を切断
+				DBManager.close(connection);
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
+
 		}
 	}
 
 	public List<Employee> findByDeptId(int deptId)
-			throws ClassNotFoundException, SQLException, IOException, SystemErrorException, IllegalInputException {
+			throws SystemErrorException {
 		List<Employee> employees = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -154,20 +165,25 @@ public class EmployeeDAO {
 				employees.add(employee);
 			}
 			return employees;
-
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
-			// クローズ処理
-			DBManager.close(resultSet);
-			// Statementをクローズ
-			DBManager.close(preparedStatement);
-			// DBとの接続を切断
-			DBManager.close(connection);
+			try {
+				// クローズ処理
+				DBManager.close(resultSet);
+				// Statementをクローズ
+				DBManager.close(preparedStatement);
+				// DBとの接続を切断
+				DBManager.close(connection);
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public void insert()
-			throws ClassNotFoundException, SQLException,
-			SystemErrorException, IllegalInputException, ParseException {
+	public void insert(Employee employee)
+			throws SystemErrorException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -178,27 +194,33 @@ public class EmployeeDAO {
 			// ステートメントを作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
 
-			// 入力値をバインド
-			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, EmployeeUtil.readEmpName());//名前の入力
-			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, EmployeeUtil.readEmpGender());//性別の入力
+			// Employeeオブジェクトから入力値を取得してバインド
+			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, employee.getEmpName());
+			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, employee.getGender());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(EmployeeUtil.readBirthday()),
-					Types.DATE);//誕生日の入力
-			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, EmployeeUtil.readDeptId());//部署IDの入力
+			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(employee.getBirthday()),
+					Types.DATE);
+			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, employee.getDepartment().getDeptId());
 
 			// SQL文を実行
 			preparedStatement.executeUpdate();
 			// 登録完了メッセージを出力
 			ConsoleWriter.showCreateComp();
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
-			DBManager.close(preparedStatement);
-			DBManager.close(connection);
+			try {
+				DBManager.close(preparedStatement);
+				DBManager.close(connection);
+			} catch (SQLException e) {
+				// TODO 自動生成された catch ブロック
+				e.printStackTrace();
+			}
 		}
 	}
 
-	public int update(int empId)
-			throws ClassNotFoundException, SQLException, IOException, ParseException, SystemErrorException,
-			IllegalInputException {
+	public Integer update(Employee employee)
+			throws SystemErrorException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -209,29 +231,35 @@ public class EmployeeDAO {
 			// ステートメントの作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
 
-			// 入力値をバインド
-			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, EmployeeUtil.readEmpName());//名前の入力
-			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, EmployeeUtil.readEmpGender());//性別の入力
+			// Employeeオブジェクトから入力値を取得してバインド
+			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, employee.getEmpName());
+			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, employee.getGender());
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(EmployeeUtil.readBirthday()),
-					Types.DATE);//誕生日の入力
-			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, EmployeeUtil.readDeptId());//部署IDの入力
-			preparedStatement.setInt(ConstantValue.EMPID_PARAM_INDEX, empId);
+			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(employee.getBirthday()),
+					Types.DATE);
+			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, employee.getDepartment().getDeptId());
+			preparedStatement.setInt(ConstantValue.EMPID_PARAM_INDEX, employee.getEmpId());
 
 			// SQL文の実行(失敗時は戻り値0)
 			int updatedRows = preparedStatement.executeUpdate();
 			return updatedRows;
 
+		} catch (ClassNotFoundException | SQLException | ParseException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
 			// クローズ処理
-			DBManager.close(preparedStatement);
+			try {
+				DBManager.close(preparedStatement);
+				DBManager.close(connection);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 			// DBとの接続を切断
-			DBManager.close(connection);
 		}
 	}
 
-	public int delete(int empId)
-			throws ClassNotFoundException, SQLException, SystemErrorException, IllegalInputException {
+	public Integer delete(Integer empId)
+			throws SystemErrorException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -248,7 +276,8 @@ public class EmployeeDAO {
 			// SQL文の実行(失敗時は戻り値0)
 			int deletedRows = preparedStatement.executeUpdate();
 			return deletedRows;
-
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
 			// Statementをクローズ
 			try {
