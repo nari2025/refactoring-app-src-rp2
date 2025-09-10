@@ -6,11 +6,8 @@ public class Employee {
 
 	private int empId;
 	private int gender;
-
-	private String gender_ja;
 	private String birthday;
 	private String empName;
-
 	private Department department;
 
 	@Override
@@ -31,6 +28,7 @@ public class Employee {
 	}
 
 	public String getGenderText(int gender) {
+		String gender_ja = "";
 		if (this.gender == ConstantValue.MALE) {
 			gender_ja = ConstantValue.STRING_MALE;
 		} else if (this.gender == ConstantValue.FEMALE) {
