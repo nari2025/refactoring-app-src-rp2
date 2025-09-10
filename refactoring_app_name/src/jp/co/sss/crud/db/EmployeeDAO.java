@@ -17,6 +17,8 @@ import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
 import jp.co.sss.crud.util.ConstantSQL;
+import jp.co.sss.crud.util.ConstantValue;
+import jp.co.sss.crud.util.EmployeeUtil;
 
 public class EmployeeDAO {
 
@@ -81,7 +83,7 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(sql.toString());
 
 			// 検索条件となる値をバインド
-			preparedStatement.setString(1, "%" + searchWord + "%");
+			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, "%" + searchWord + "%");
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
@@ -132,7 +134,7 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(sql.toString());
 
 			// 検索条件となる値をバインド
-			preparedStatement.setInt(1, deptId);
+			preparedStatement.setInt(ConstantValue.FINDBY_DEPTID_PARAM_INDEX, deptId);
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
@@ -164,7 +166,7 @@ public class EmployeeDAO {
 		}
 	}
 
-	public void insert(String empName, int gender, String birthday, int deptId)
+	public void insert()
 			throws ClassNotFoundException, SQLException,
 			SystemErrorException, IllegalInputException, ParseException {
 		Connection connection = null;
@@ -178,11 +180,12 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_INSERT);
 
 			// 入力値をバインド
-			preparedStatement.setString(1, empName);
-			preparedStatement.setInt(2, gender);
+			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, EmployeeUtil.readEmpName());//名前の入力
+			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, EmployeeUtil.readEmpGender());//性別の入力
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-			preparedStatement.setInt(4, deptId);
+			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(EmployeeUtil.readBirthday()),
+					Types.DATE);//誕生日の入力
+			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, EmployeeUtil.readDeptId());//部署IDの入力
 
 			// SQL文を実行
 			preparedStatement.executeUpdate();
@@ -194,7 +197,7 @@ public class EmployeeDAO {
 		}
 	}
 
-	public int update(int empId, String empName, int gender, String birthday, int deptId)
+	public int update(int empId)
 			throws ClassNotFoundException, SQLException, IOException, ParseException, SystemErrorException,
 			IllegalInputException {
 		Connection connection = null;
@@ -208,12 +211,13 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
 
 			// 入力値をバインド
-			preparedStatement.setString(1, empName);
-			preparedStatement.setInt(2, gender);
+			preparedStatement.setString(ConstantValue.NAME_PARAM_INDEX, EmployeeUtil.readEmpName());//名前の入力
+			preparedStatement.setInt(ConstantValue.GENDER_PARAM_INDEX, EmployeeUtil.readEmpGender());//性別の入力
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
-			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-			preparedStatement.setInt(4, deptId);
-			preparedStatement.setInt(5, empId);
+			preparedStatement.setObject(ConstantValue.BIRTHDAY_PARAM_INDEX, sdf.parse(EmployeeUtil.readBirthday()),
+					Types.DATE);//誕生日の入力
+			preparedStatement.setInt(ConstantValue.DEPTID_PARAM_INDEX, EmployeeUtil.readDeptId());//部署IDの入力
+			preparedStatement.setInt(ConstantValue.EMPID_PARAM_INDEX, empId);
 
 			// SQL文の実行(失敗時は戻り値0)
 			int updatedRows = preparedStatement.executeUpdate();
@@ -240,7 +244,7 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_DELETE);
 
 			// 社員IDをバインド
-			preparedStatement.setInt(1, empId);
+			preparedStatement.setInt(ConstantValue.DELETE_EMP_ID_PARAM_INDEX, empId);
 
 			// SQL文の実行(失敗時は戻り値0)
 			int deletedRows = preparedStatement.executeUpdate();
