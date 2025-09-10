@@ -9,7 +9,7 @@ import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
-import jp.co.sss.crud.io.EmployeeNameReader;
+import jp.co.sss.crud.util.EmployeeUtil;
 
 public class EmployeeFindByEmpNameService implements IEmployeeService {
 	// DAOのインスタンスを保持
@@ -26,10 +26,8 @@ public class EmployeeFindByEmpNameService implements IEmployeeService {
 	 */
 	@Override
 	public void execute() throws SystemErrorException, IllegalInputException {
-		ConsoleWriter.showEmpNameQuestion();
 		//検索する社員名の入力
-		EmployeeNameReader employeeNameReader = new EmployeeNameReader();
-		String searchWord = (String) employeeNameReader.input();
+		String searchWord = EmployeeUtil.readEmpName();
 
 		try {
 			//DAOのfindByEmployeeName()メソッドを呼び出す
