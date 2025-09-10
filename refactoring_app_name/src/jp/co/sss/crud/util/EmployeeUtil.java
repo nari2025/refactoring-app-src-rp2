@@ -1,5 +1,6 @@
 package jp.co.sss.crud.util;
 
+import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
@@ -10,13 +11,29 @@ import jp.co.sss.crud.io.EmployeeGenderReader;
 import jp.co.sss.crud.io.EmployeeNameReader;
 
 public class EmployeeUtil {
-	public static int readUpdateEmpId() throws SystemErrorException, IllegalInputException {
+
+	public static Employee readEmpDetailsInsert() throws SystemErrorException, IllegalInputException {
+		String empName = readEmpName();
+		int gender = readEmpGender();
+		String birthday = readBirthday();
+		int deptId = readDeptId();
+		Employee employee = new Employee(empName, gender, birthday, deptId);
+		return employee;
+	}
+
+	public static Employee readEmpDetailsUpdatet() throws SystemErrorException, IllegalInputException {
 		//社員のID
 		EmployeeEmpIdReader employeeEmpIdReader = new EmployeeEmpIdReader();
 		ConsoleWriter.showUpdateQuestion();
 		int empId = (Integer) employeeEmpIdReader.input();
 
-		return empId;
+		String empName = readEmpName();
+		int gender = readEmpGender();
+		String birthday = readBirthday();
+		int deptId = readDeptId();
+		Employee employee = new Employee(empName, gender, birthday, deptId);
+		employee.setEmpId(empId);
+		return employee;
 	}
 
 	public static int readDeleteeEmpId() throws SystemErrorException, IllegalInputException {
