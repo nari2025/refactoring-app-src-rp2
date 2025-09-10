@@ -10,6 +10,24 @@ public class Employee {
 	private String empName;
 	private Department department;
 
+	public Employee(String empName, int gender, String birthday, int deptId) {
+		this.gender = gender;
+		this.birthday = birthday;
+		this.empName = empName;
+		this.department = new Department(deptId);
+	}
+
+	public Employee() {
+	}
+
+	public Employee(int empId, String empName, int gender, String birthday, int deptId) {
+		this.empName = empName;
+		this.gender = gender;
+		this.birthday = birthday;
+		this.empName = empName;
+		this.department = new Department(deptId);
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
