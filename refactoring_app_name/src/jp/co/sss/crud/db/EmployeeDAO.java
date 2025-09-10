@@ -112,7 +112,6 @@ public class EmployeeDAO {
 			// DBとの接続を切断
 			DBManager.close(connection);
 		}
-
 	}
 
 	public List<Employee> findByDeptId(int deptId)
@@ -261,5 +260,4 @@ public class EmployeeDAO {
 			// DBとの接続を切断
 		}
 	}
-
 }

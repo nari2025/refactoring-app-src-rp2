@@ -60,7 +60,6 @@ public class MainSystem {
 				System.out.println();
 				continue;
 			}
-
 		} while (menuNo != ConstantValue.FINISH);
 		System.out.println(ConstantMsg.MSG_FINISH);
 	}

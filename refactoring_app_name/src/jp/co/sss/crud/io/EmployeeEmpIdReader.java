@@ -16,5 +16,4 @@ public class EmployeeEmpIdReader implements IConsoleReader {
 	public boolean isParseInt() {
 		return true;
 	}
-
 }

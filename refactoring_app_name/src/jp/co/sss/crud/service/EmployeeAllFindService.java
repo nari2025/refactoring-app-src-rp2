@@ -25,5 +25,4 @@ public class EmployeeAllFindService implements IEmployeeService {
 			e.printStackTrace();
 		}
 	}
-
 }
