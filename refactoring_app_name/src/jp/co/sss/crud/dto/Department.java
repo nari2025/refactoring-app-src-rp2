@@ -5,6 +5,13 @@ public class Department {
 	private String deptName;
 	private int deptId;
 
+	public Department(int deptId) {
+		this.deptId = deptId;
+	}
+
+	public Department() {
+	}
+
 	public String getDeptName() {
 		return deptName;
 	}
