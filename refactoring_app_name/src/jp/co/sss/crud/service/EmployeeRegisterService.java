@@ -1,11 +1,10 @@
 package jp.co.sss.crud.service;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-
 import jp.co.sss.crud.db.EmployeeDAO;
+import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
+import jp.co.sss.crud.util.EmployeeUtil;
 
 public class EmployeeRegisterService implements IEmployeeService {
 	// DAOのインスタンスを保持
@@ -20,11 +19,7 @@ public class EmployeeRegisterService implements IEmployeeService {
 	 */
 	@Override
 	public void execute() throws SystemErrorException, IllegalInputException {
-
-		try {
-			employeeDAO.insert();
-		} catch (ClassNotFoundException | SQLException | ParseException e) {
-			e.printStackTrace();
-		}
+		Employee employee = EmployeeUtil.readEmpDetailsInsert();
+		employeeDAO.insert(employee);
 	}
 }

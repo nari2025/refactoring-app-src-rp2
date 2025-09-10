@@ -1,10 +1,7 @@
 package jp.co.sss.crud.service;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
-
 import jp.co.sss.crud.db.EmployeeDAO;
+import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
@@ -23,16 +20,10 @@ public class EmployeeUpdateService implements IEmployeeService {
 	 */
 	@Override
 	public void execute() throws SystemErrorException, IllegalInputException {
+		Employee employee = EmployeeUtil.readEmpDetailsUpdatet();
 
-		int empId = EmployeeUtil.readUpdateEmpId();
-
-		try {
-			int updatedRows = employeeDAO.update(empId);
-			ConsoleWriter.showUpdateComp(updatedRows);
-
-		} catch (ClassNotFoundException | SQLException | IOException | ParseException e) {
-			e.printStackTrace();
-		}
+		int updatedRows = employeeDAO.update(employee);
+		ConsoleWriter.showUpdateComp(updatedRows);
 	}
 
 }

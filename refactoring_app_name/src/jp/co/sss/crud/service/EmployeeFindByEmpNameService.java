@@ -29,13 +29,9 @@ public class EmployeeFindByEmpNameService implements IEmployeeService {
 		//検索する社員名の入力
 		String searchWord = EmployeeUtil.readEmpName();
 
-		try {
-			//DAOのfindByEmployeeName()メソッドを呼び出す
-			List<Employee> searchedEmployees = employeeDAO.findByEmployeeName(searchWord);
-			//結果をコンソール出力
-			ConsoleWriter.showEmployees(searchedEmployees);
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-			e.printStackTrace();
-		}
+		//DAOのfindByEmployeeName()メソッドを呼び出す
+		List<Employee> searchedEmployees = employeeDAO.findByEmployeeName(searchWord);
+		//結果をコンソール出力
+		ConsoleWriter.showEmployees(searchedEmployees);
 	}
 }

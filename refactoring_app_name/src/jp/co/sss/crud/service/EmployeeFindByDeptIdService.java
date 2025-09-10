@@ -28,13 +28,9 @@ public class EmployeeFindByDeptIdService implements IEmployeeService {
 	public void execute() throws SystemErrorException, IllegalInputException {
 		//検索する部署IDの入力
 		int searchDeptId = EmployeeUtil.readDeptId();
-		try {
-			// DAOのfindByDeptId()メソッドを呼び出してリストを取得
-			List<Employee> searchedEmployees = employeeDAO.findByDeptId(searchDeptId);
-			//結果をコンソール出力
-			ConsoleWriter.showEmployees(searchedEmployees);
-		} catch (ClassNotFoundException | SQLException | IOException e) {
-			e.printStackTrace();
-		}
+		// DAOのfindByDeptId()メソッドを呼び出してリストを取得
+		List<Employee> searchedEmployees = employeeDAO.findByDeptId(searchDeptId);
+		//結果をコンソール出力
+		ConsoleWriter.showEmployees(searchedEmployees);
 	}
 }

@@ -1,7 +1,5 @@
 package jp.co.sss.crud.service;
 
-import java.sql.SQLException;
-
 import jp.co.sss.crud.db.EmployeeDAO;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
@@ -23,7 +21,7 @@ public class EmployeeDeleteService implements IEmployeeService {
 		int empId = EmployeeUtil.readDeleteeEmpId();
 		try {
 			employeeDAO.delete(empId);
-		} catch (ClassNotFoundException | SQLException | SystemErrorException | IllegalInputException e) {
+		} catch (SystemErrorException e) {
 			e.printStackTrace();
 		}
 
