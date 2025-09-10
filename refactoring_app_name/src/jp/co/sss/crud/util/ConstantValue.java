@@ -1,6 +1,12 @@
 package jp.co.sss.crud.util;
 
 public class ConstantValue {
+	// 定数をDTOクラス内に定義するか、別の定数クラスにまとめる
+	public static final String STRING_MALE = "男性";
+	public static final String STRING_FEMALE = "女性";
+	public static final String STRING_OTHER = "その他";
+	public static final String STRING_NO_ANSWER = "回答なし";
+
 	/** 入力された数字に対応した処理を変数として定義 */
 	public static final int FIND_ALL = 1;
 	public static final int FIND_NAME = 2;
