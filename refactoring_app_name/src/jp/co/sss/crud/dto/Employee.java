@@ -3,11 +3,7 @@ package jp.co.sss.crud.dto;
 import jp.co.sss.crud.util.ConstantValue;
 
 public class Employee {
-	// 定数をDTOクラス内に定義するか、別の定数クラスにまとめる
-	private static final String STRING_MALE = "男性";
-	private static final String STRING_FEMALE = "女性";
-	private static final String STRING_OTHER = "その他";
-	private static final String STRING_NO_ANSWER = "回答なし";
+
 	private int empId;
 	private int gender;
 
@@ -25,6 +21,7 @@ public class Employee {
 		sb.append(empName);
 		sb.append("\t");
 		sb.append(getGenderText(gender));
+		sb.append("\t");
 		sb.append(birthday);
 		sb.append("\t");
 		sb.append(department.getDeptName());
@@ -35,13 +32,13 @@ public class Employee {
 
 	public String getGenderText(int gender) {
 		if (this.gender == ConstantValue.MALE) {
-			gender_ja = STRING_MALE;
+			gender_ja = ConstantValue.STRING_MALE;
 		} else if (this.gender == ConstantValue.FEMALE) {
-			gender_ja = STRING_FEMALE;
+			gender_ja = ConstantValue.STRING_FEMALE;
 		} else if (this.gender == ConstantValue.OTHER) {
-			gender_ja = STRING_OTHER;
+			gender_ja = ConstantValue.STRING_OTHER;
 		} else if (this.gender == ConstantValue.NO_ANSWER) {
-			gender_ja = STRING_NO_ANSWER;
+			gender_ja = ConstantValue.STRING_NO_ANSWER;
 		}
 		return gender_ja;
 	}
