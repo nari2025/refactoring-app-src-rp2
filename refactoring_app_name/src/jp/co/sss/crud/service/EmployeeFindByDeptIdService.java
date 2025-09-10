@@ -9,7 +9,7 @@ import jp.co.sss.crud.dto.Employee;
 import jp.co.sss.crud.exception.IllegalInputException;
 import jp.co.sss.crud.exception.SystemErrorException;
 import jp.co.sss.crud.io.ConsoleWriter;
-import jp.co.sss.crud.io.EmployeeDeptIdReader;
+import jp.co.sss.crud.util.EmployeeUtil;
 
 public class EmployeeFindByDeptIdService implements IEmployeeService {
 	// DAOのインスタンスを保持
@@ -26,14 +26,11 @@ public class EmployeeFindByDeptIdService implements IEmployeeService {
 	 */
 	@Override
 	public void execute() throws SystemErrorException, IllegalInputException {
-		ConsoleWriter.showDeptIdQuestion();
-		//検索する部署ID
-		EmployeeDeptIdReader employeeDeptIdReader = new EmployeeDeptIdReader();
-		int deptId = (Integer) employeeDeptIdReader.input();
-
+		//検索する部署IDの入力
+		int searchDeptId = EmployeeUtil.readDeptId();
 		try {
 			// DAOのfindByDeptId()メソッドを呼び出してリストを取得
-			List<Employee> searchedEmployees = employeeDAO.findByDeptId(deptId);
+			List<Employee> searchedEmployees = employeeDAO.findByDeptId(searchDeptId);
 			//結果をコンソール出力
 			ConsoleWriter.showEmployees(searchedEmployees);
 		} catch (ClassNotFoundException | SQLException | IOException e) {
