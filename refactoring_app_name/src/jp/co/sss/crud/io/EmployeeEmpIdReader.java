@@ -1,10 +1,12 @@
 package jp.co.sss.crud.io;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class EmployeeEmpIdReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "1以上9999以下の整数を入力してください";
+		return ConstantMsg.MSG_EMPID_ERROR;
 	}
 
 	@Override

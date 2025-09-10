@@ -1,10 +1,12 @@
 package jp.co.sss.crud.io;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class EmployeeGenderReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "0か1か2か9を入力してください";
+		return ConstantMsg.MSG_GENDER_ERROR;
 	}
 
 	@Override

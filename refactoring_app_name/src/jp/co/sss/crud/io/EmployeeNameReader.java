@@ -1,10 +1,12 @@
 package jp.co.sss.crud.io;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class EmployeeNameReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "1文字以上30文字以下の文字列を入力してください";
+		return ConstantMsg.MSG_EMPNAME_ERROR;
 	}
 
 	@Override

@@ -3,11 +3,13 @@ package jp.co.sss.crud.io;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class EmployeeBirthdayReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "正しい形式(西暦年/月/日)で日付を入力してください";
+		return ConstantMsg.MSG_BITHDAY_ERROR;
 	}
 
 	@Override

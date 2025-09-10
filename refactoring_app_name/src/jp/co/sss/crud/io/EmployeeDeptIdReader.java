@@ -1,10 +1,12 @@
 package jp.co.sss.crud.io;
 
+import jp.co.sss.crud.util.ConstantMsg;
+
 public class EmployeeDeptIdReader implements IConsoleReader {
 
 	@Override
 	public String getErrorMsg() {
-		return "1以上3以下の整数を入力してください";
+		return ConstantMsg.MSG_DEPTID_ERROR;
 	}
 
 	@Override
