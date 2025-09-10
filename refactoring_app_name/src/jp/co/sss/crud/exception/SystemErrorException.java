@@ -1,10 +1,11 @@
 package jp.co.sss.crud.exception;
 
-import java.io.IOException;
-
 public class SystemErrorException extends Exception {
-
-	public SystemErrorException(String msgSystemError, IOException e) {
+	/**
+	* システムにエラー、その他のエラーがあった際に送出する例外クラス
+	* 
+	*/
+	public SystemErrorException(String msgSystemError, Exception e) {
 		super(msgSystemError, e);
 	}
 
