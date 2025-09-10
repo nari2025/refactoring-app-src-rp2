@@ -1,8 +1,6 @@
 package jp.co.sss.crud.db;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,14 +13,15 @@ import java.util.List;
 
 import jp.co.sss.crud.dto.Department;
 import jp.co.sss.crud.dto.Employee;
-import jp.co.sss.crud.util.ConstantMsg;
+import jp.co.sss.crud.exception.IllegalInputException;
+import jp.co.sss.crud.exception.SystemErrorException;
+import jp.co.sss.crud.io.ConsoleWriter;
 import jp.co.sss.crud.util.ConstantSQL;
 
 public class EmployeeDAO {
 
 	public List<Employee> findAll() throws ClassNotFoundException, SQLException {
 		List<Employee> allEmployees = new ArrayList<>();
-
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -36,19 +35,13 @@ public class EmployeeDAO {
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
-
-			//resultSetの結果Setがない場合はfalse
-			if (!resultSet.isBeforeFirst()) {
-				System.out.println(ConstantMsg.MSG_NO_MATCH_FOUND);
-				return allEmployees;
-			}
+			// DTOへの格納とリストへの追加
 			while (resultSet.next()) {
 				//DTO への格納
 				Employee allEmployee = new Employee();
-
 				Department department = new Department();
-				department.setDeptName(resultSet.getString("dept_name"));
 
+				department.setDeptName(resultSet.getString("dept_name"));
 				allEmployee.setEmpId(resultSet.getInt("emp_id"));
 				allEmployee.setGender(resultSet.getInt("gender"));
 				allEmployee.setEmpName(resultSet.getString("emp_name"));
@@ -69,18 +62,13 @@ public class EmployeeDAO {
 		return allEmployees;
 	}
 
-	public List<Employee> findByEmployeeName()
-			throws ClassNotFoundException, SQLException, IOException {
-
+	public List<Employee> findByEmployeeName(String searchWord)
+			throws ClassNotFoundException, SQLException, IOException, SystemErrorException, IllegalInputException {
 		List<Employee> employees = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
 
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-		// 検索ワード
-		String searchWord = br.readLine();
 		try {
 			// DBに接続
 			connection = DBManager.getConnection();
@@ -97,20 +85,13 @@ public class EmployeeDAO {
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
-			//該当者がいるかチェック
-			if (!resultSet.isBeforeFirst()) {
-				System.out.println(ConstantMsg.MSG_NO_MATCH_FOUND);
-				return employees;
-			}
-
 			// DTOへの格納とリストへの追加
 			while (resultSet.next()) {
 				//DTO への格納
 				Employee employee = new Employee();
-
 				Department department = new Department();
-				department.setDeptName(resultSet.getString("dept_name"));
 
+				department.setDeptName(resultSet.getString("dept_name"));
 				employee.setEmpId(resultSet.getInt("emp_id"));
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setEmpName(resultSet.getString("emp_name"));
@@ -118,10 +99,7 @@ public class EmployeeDAO {
 				employee.setDepartment(department);
 				//リストへの追加
 				employees.add(employee);
-
-				System.out.println(employee);
 			}
-			System.out.println("");
 			return employees;
 
 		} finally {
@@ -135,10 +113,9 @@ public class EmployeeDAO {
 
 	}
 
-	public List<Department> findByDeptId(String deptId)
-			throws ClassNotFoundException, SQLException, IOException {
-		List<Department> departments = new ArrayList<>();
-
+	public List<Employee> findByDeptId(int deptId)
+			throws ClassNotFoundException, SQLException, IOException, SystemErrorException, IllegalInputException {
+		List<Employee> employees = new ArrayList<>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ResultSet resultSet = null;
@@ -155,15 +132,10 @@ public class EmployeeDAO {
 			preparedStatement = connection.prepareStatement(sql.toString());
 
 			// 検索条件となる値をバインド
-			preparedStatement.setInt(1, Integer.parseInt(deptId));
+			preparedStatement.setInt(1, deptId);
 
 			// SQL文を実行
 			resultSet = preparedStatement.executeQuery();
-
-			if (!resultSet.isBeforeFirst()) {
-				System.out.println(ConstantMsg.MSG_NO_MATCH_FOUND);
-				return departments;
-			}
 
 			// DTOへの格納とリストへの追加
 			while (resultSet.next()) {
@@ -171,18 +143,16 @@ public class EmployeeDAO {
 				Employee employee = new Employee();
 				Department department = new Department();
 
+				department.setDeptName(resultSet.getString("dept_name"));
 				employee.setEmpId(resultSet.getInt("emp_id"));
 				employee.setGender(resultSet.getInt("gender"));
 				employee.setEmpName(resultSet.getString("emp_name"));
 				employee.setBirthday(resultSet.getString("birthday"));
-
-				department.setDeptId(resultSet.getInt("dept_id"));
-				department.setDeptName(resultSet.getString("dept_name"));
-				department.setEmployee(employee);
+				employee.setDepartment(department);
 				//リストへの追加
-				departments.add(department);
+				employees.add(employee);
 			}
-			return departments;
+			return employees;
 
 		} finally {
 			// クローズ処理
@@ -194,8 +164,9 @@ public class EmployeeDAO {
 		}
 	}
 
-	public void insert(String empName, String gender, String birthday, String deptId)
-			throws ClassNotFoundException, SQLException, IOException, ParseException {
+	public void insert(String empName, int gender, String birthday, int deptId)
+			throws ClassNotFoundException, SQLException,
+			SystemErrorException, IllegalInputException, ParseException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -208,25 +179,26 @@ public class EmployeeDAO {
 
 			// 入力値をバインド
 			preparedStatement.setString(1, empName);
-			preparedStatement.setInt(2, Integer.parseInt(gender));
+			preparedStatement.setInt(2, gender);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-			preparedStatement.setInt(4, Integer.parseInt(deptId));
+			preparedStatement.setInt(4, deptId);
 
 			// SQL文を実行
 			preparedStatement.executeUpdate();
-
+			// 登録完了メッセージを出力
+			ConsoleWriter.showCreateComp();
 		} finally {
 			DBManager.close(preparedStatement);
 			DBManager.close(connection);
 		}
 	}
 
-	public void update(String empId)
-			throws ClassNotFoundException, SQLException, IOException, ParseException {
+	public int update(int empId, String empName, int gender, String birthday, int deptId)
+			throws ClassNotFoundException, SQLException, IOException, ParseException, SystemErrorException,
+			IllegalInputException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
 			// データベースに接続
@@ -235,29 +207,17 @@ public class EmployeeDAO {
 			// ステートメントの作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_UPDATE);
 
-			System.out.print("社員名：");
-			String emp_name = br.readLine();
-			// 性別を入力
-			System.out.print("性別(0:回答しない, 1:男性, 2:女性, 9:その他):");
-			String gender = br.readLine();
-			// 誕生日を入力
-			System.out.print("生年月日(西暦年/月/日)：");
-			String birthday = br.readLine();
-
-			// 部署IDを入力
-			System.out.print("部署ID(1：営業部、2：経理部、3：総務部)：");
-			String deptId = br.readLine();
-
 			// 入力値をバインド
-			preparedStatement.setString(1, emp_name);
-			preparedStatement.setInt(2, Integer.parseInt(gender));
+			preparedStatement.setString(1, empName);
+			preparedStatement.setInt(2, gender);
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 			preparedStatement.setObject(3, sdf.parse(birthday), Types.DATE);
-			preparedStatement.setInt(4, Integer.parseInt(deptId));
-			preparedStatement.setInt(5, Integer.parseInt(empId));
+			preparedStatement.setInt(4, deptId);
+			preparedStatement.setInt(5, empId);
 
 			// SQL文の実行(失敗時は戻り値0)
-			preparedStatement.executeUpdate(ConstantMsg.MSG_CREATE_COMPLETE);
+			int updatedRows = preparedStatement.executeUpdate();
+			return updatedRows;
 
 		} finally {
 			// クローズ処理
@@ -267,31 +227,26 @@ public class EmployeeDAO {
 		}
 	}
 
-	public void delete() {
+	public int delete(int empId)
+			throws ClassNotFoundException, SQLException, SystemErrorException, IllegalInputException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 		try {
 			// データベースに接続
 			connection = DBManager.getConnection();
-			String empId = br.readLine();
 
 			// ステートメントの作成
 			preparedStatement = connection.prepareStatement(ConstantSQL.SQL_DELETE);
 
 			// 社員IDをバインド
-			preparedStatement.setInt(1, Integer.parseInt(empId));
+			preparedStatement.setInt(1, empId);
 
 			// SQL文の実行(失敗時は戻り値0)
-			preparedStatement.executeUpdate();
+			int deletedRows = preparedStatement.executeUpdate();
+			return deletedRows;
 
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-
-		finally {
+		} finally {
 			// Statementをクローズ
 			try {
 				DBManager.close(preparedStatement);
