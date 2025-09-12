@@ -14,6 +14,15 @@ public class Employee {
 	/** 部署 */
 	private Department department;
 
+	/**
+	 *  社員テーブルDTOのコンストラクタ
+	 */
+	public Employee() {
+	}
+
+	/**
+	 * 社員テーブルDTOのコンストラクタ（登録時に使用)
+	 */
 	public Employee(String empName, int gender, String birthday, int deptId) {
 		this.gender = gender;
 		this.birthday = birthday;
@@ -21,17 +30,10 @@ public class Employee {
 		this.department = new Department(deptId);
 	}
 
-	public Employee() {
-	}
-
-	public Employee(int empId, String empName, int gender, String birthday, int deptId) {
-		this.empName = empName;
-		this.gender = gender;
-		this.birthday = birthday;
-		this.empName = empName;
-		this.department = new Department(deptId);
-	}
-
+	/**
+	 * 社員データを文字列にする
+	 * @return 社員データの文字列
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -49,7 +51,12 @@ public class Employee {
 		return sb.toString();
 	}
 
+	/**
+	 * 取得した性別(数字)を対応する性別(日本語)に変換する
+	 * @return 性別(日本語)
+	 */
 	public String getGenderText(int gender) {
+		/** 部署 */
 		String gender_ja = "";
 		if (this.gender == ConstantValue.MALE) {
 			gender_ja = ConstantValue.STRING_MALE;
