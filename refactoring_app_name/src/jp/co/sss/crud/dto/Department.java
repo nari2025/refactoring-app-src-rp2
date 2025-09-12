@@ -7,9 +7,11 @@ public class Department {
 	/** 部署ID */
 	private int deptId;
 
+	/** 部署DTOのコンストラクタ */
 	public Department() {
 	}
 
+	/** 部署DTOの引数intのコンストラクタ */
 	public Department(int deptId) {
 		this.deptId = deptId;
 	}
