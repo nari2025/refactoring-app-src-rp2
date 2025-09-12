@@ -3,11 +3,15 @@ package jp.co.sss.crud.dto;
 import jp.co.sss.crud.util.ConstantValue;
 
 public class Employee {
-
+	/** 社員ID */
 	private int empId;
+	/** 性別(数字) */
 	private int gender;
+	/** 誕生日 */
 	private String birthday;
+	/** 社員名 */
 	private String empName;
+	/** 部署 */
 	private Department department;
 
 	public Employee(String empName, int gender, String birthday, int deptId) {
