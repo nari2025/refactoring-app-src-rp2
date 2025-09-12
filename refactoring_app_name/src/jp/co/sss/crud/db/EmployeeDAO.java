@@ -19,7 +19,10 @@ import jp.co.sss.crud.util.ConstantSQL;
 import jp.co.sss.crud.util.ConstantValue;
 
 public class EmployeeDAO implements IEmployeeDAO {
-
+	/**
+	* 社員を全件表示する
+	* @return 社員リスト
+	*/
 	public List<Employee> findAll() throws SystemErrorException {
 		List<Employee> allEmployees = new ArrayList<>();
 		Connection connection = null;
@@ -68,6 +71,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 		return allEmployees;
 	}
 
+	/**
+	* 入力された社員名と部分一致するデータを表示させる
+	* @return 一致した社員データリスト
+	*/
 	public List<Employee> findByEmployeeName(String searchWord)
 			throws SystemErrorException {
 		List<Employee> employees = new ArrayList<>();
@@ -125,6 +132,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 	}
 
+	/**
+	* 入力された部署IDと一致するデータを表示させる
+	* @return 一致した社員データリスト
+	*/
 	public List<Employee> findByDeptId(int deptId)
 			throws SystemErrorException {
 		List<Employee> employees = new ArrayList<>();
@@ -182,6 +193,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 	}
 
+	/**
+	* 新規登録
+	* 
+	*/
 	public void insert(Employee employee)
 			throws SystemErrorException {
 		Connection connection = null;
@@ -219,6 +234,10 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 	}
 
+	/**
+	* 入力された社員IDと一致する社員のデータを更新する
+	* @return 更新した件数
+	*/
 	public Integer update(Employee employee)
 			throws SystemErrorException {
 		Connection connection = null;
@@ -258,10 +277,15 @@ public class EmployeeDAO implements IEmployeeDAO {
 		}
 	}
 
+	/**
+	* 入力された社員IDと一致する社員のデータを削除する
+	* @return 削除した件数
+	*/
 	public Integer delete(Integer empId)
 			throws SystemErrorException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
+		Integer deletedRows = null;
 
 		try {
 			// データベースに接続
@@ -274,8 +298,8 @@ public class EmployeeDAO implements IEmployeeDAO {
 			preparedStatement.setInt(ConstantValue.DELETE_EMP_ID_PARAM_INDEX, empId);
 
 			// SQL文の実行(失敗時は戻り値0)
-			int deletedRows = preparedStatement.executeUpdate();
-			return deletedRows;
+			deletedRows = preparedStatement.executeUpdate();
+
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new SystemErrorException(ConstantMsg.MSG_SYSTEM_ERROR, e);
 		} finally {
@@ -288,5 +312,6 @@ public class EmployeeDAO implements IEmployeeDAO {
 			}
 			// DBとの接続を切断
 		}
+		return deletedRows;
 	}
 }
