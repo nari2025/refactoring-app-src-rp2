@@ -11,7 +11,11 @@ import jp.co.sss.crud.io.EmployeeGenderReader;
 import jp.co.sss.crud.io.EmployeeNameReader;
 
 public class EmployeeUtil {
-
+	/**
+	 * 登録処理の際に使用する入力の記述
+	 * @return 入力した内容
+	 * @throws SystemErrorException : {@code ClassNotFoundException | SQLException }をキャッチしてスローする
+	 */
 	public static Employee readEmpDetailsInsert() throws SystemErrorException, IllegalInputException {
 		String empName = readEmpName();
 		int gender = readEmpGender();
@@ -21,6 +25,11 @@ public class EmployeeUtil {
 		return employee;
 	}
 
+	/**
+	 * 更新処理の際に使用する入力の記述
+	 * @return 入力した内容
+	 * @throws SystemErrorException : {@code ClassNotFoundException | SQLException }をキャッチしてスローする
+	 */
 	public static Employee readEmpDetailsUpdatet() throws SystemErrorException, IllegalInputException {
 		//社員のID
 		EmployeeEmpIdReader employeeEmpIdReader = new EmployeeEmpIdReader();
@@ -36,6 +45,11 @@ public class EmployeeUtil {
 		return employee;
 	}
 
+	/**
+	 * 削除処理の際に使用する入力の記述
+	 * @return 入力した内容
+	 * @throws SystemErrorException : {@code ClassNotFoundException | SQLException }をキャッチしてスローする
+	 */
 	public static int readDeleteeEmpId() throws SystemErrorException, IllegalInputException {
 		//社員のID
 		EmployeeEmpIdReader employeeEmpIdReader = new EmployeeEmpIdReader();
@@ -45,6 +59,10 @@ public class EmployeeUtil {
 		return empId;
 	}
 
+	/**
+	 * 社員名の入力
+	 * @return 入力した社員名
+	 */
 	public static String readEmpName() throws SystemErrorException, IllegalInputException {
 		// 名前を入力
 		EmployeeNameReader employeeNameReader = new EmployeeNameReader();
@@ -54,6 +72,10 @@ public class EmployeeUtil {
 		return empName;
 	}
 
+	/**
+	 * 性別の入力
+	 * @return 入力した性別
+	 */
 	public static int readEmpGender() throws SystemErrorException, IllegalInputException {
 		// 性別を入力
 		EmployeeGenderReader employeeGenderReader = new EmployeeGenderReader();
@@ -63,6 +85,10 @@ public class EmployeeUtil {
 		return gender;
 	}
 
+	/**
+	 * 誕生日の入力
+	 * @return 入力した誕生日
+	 */
 	public static String readBirthday() throws SystemErrorException, IllegalInputException {
 		// 誕生日を入力
 		EmployeeBirthdayReader employeeBirthdayReader = new EmployeeBirthdayReader();
@@ -72,6 +98,10 @@ public class EmployeeUtil {
 		return birthday;
 	}
 
+	/**
+	 * 部署IDの入力
+	 * @return 入力した部署ID
+	 */
 	public static int readDeptId() throws SystemErrorException, IllegalInputException {
 		// 部署IDを入力
 		EmployeeDeptIdReader employeeDeptIdReader = new EmployeeDeptIdReader();
