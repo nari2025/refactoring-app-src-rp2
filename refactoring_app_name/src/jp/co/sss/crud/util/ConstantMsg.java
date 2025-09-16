@@ -24,6 +24,7 @@ public class ConstantMsg {
 	public static final String MSG_NO_TARGET_FOUND = "対象者がいませんでした";
 
 	/** バリテーション */
+	public static final String MSG_MENUNO_ERROR = "1以上7以下の整数を入力してください";
 	public static final String MSG_DEPTID_ERROR = "1以上3以下の整数を入力してください";
 	public static final String MSG_BITHDAY_ERROR = "正しい形式(西暦年/月/日)で日付を入力してください";
 	public static final String MSG_EMPID_ERROR = "1以上9999以下の整数を入力してください";
