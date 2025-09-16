@@ -6,12 +6,19 @@ import java.text.SimpleDateFormat;
 import jp.co.sss.crud.util.ConstantMsg;
 
 public class EmployeeBirthdayReader implements IConsoleReader {
-
+	/**
+	 * エラーメッセージの表示
+	 * @return エラーメッセージ
+	 */
 	@Override
 	public String getErrorMsg() {
 		return ConstantMsg.MSG_BITHDAY_ERROR;
 	}
 
+	/**
+	 * バリデーションチェック
+	 * @return バリデーションの結果
+	 */
 	@Override
 	public boolean isValid(String inputString) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
@@ -29,6 +36,10 @@ public class EmployeeBirthdayReader implements IConsoleReader {
 		}
 	}
 
+	/**
+	 * 数字かどうかの判定
+	 * @return 数字ではないｔめfalseを返す
+	 */
 	@Override
 	public boolean isParseInt() {
 		return false;
