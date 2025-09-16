@@ -4,8 +4,6 @@ public class ConstantMsg {
 
 	/** 全件表示の際のテーブルのカラム名 */
 	public static final String MSG_LIST_CALAM = "社員ID\t社員名\t性別\t生年月日\t部署名";
-	/** 全件表示の際のテーブルのカラム名 */
-	public static final String MSG_FIND_BY_DEPTNO = "部署ID(1：営業部、2：経理部、3：総務部)を入力してください：";
 	/** 該当者がいない場合のメッセージ */
 	public static final String MSG_NO_MATCH_FOUND = "該当する社員は存在しません。";
 	/** 更新する社員を質問する時のメッセージ */
